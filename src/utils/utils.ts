@@ -140,19 +140,277 @@ function calculateRoot(input: string): number | string {
 }
 
 // function to calculate Square root
-export function calculateSqrt(input: number): string {
-	if (isNaN(input)) {
+export function calculateSqrt(input: string): string {
+	const num = parseFloat(input);
+	if (isNaN(num)) {
 		return '';
 	} else {
-		return Math.sqrt(input).toString();
+		return Math.sqrt(num).toString();
 	}
 }
 
 // function to calculate cube root
-export function calculateCubeSqrt(input: number): string {
-	if (isNaN(input)) {
+export function calculateCubeSqrt(input: string): string {
+	const num = parseFloat(input);
+	if (isNaN(num)) {
 		return '';
 	} else {
-		return Math.cbrt(input).toString();
+		return Math.cbrt(num).toString();
 	}
+}
+
+// function to generate absolute value
+export function getAbsolute(input: string): string {
+	const num = parseFloat(input);
+	if (isNaN(num)) {
+		return '';
+	} else {
+		return Math.abs(num).toString();
+	}
+}
+
+// function to generate Floor value
+export function getFloor(input: string): string {
+	const num = parseFloat(input);
+	if (isNaN(num)) {
+		return '';
+	} else {
+		return Math.floor(num).toString();
+	}
+}
+
+// function to generate Ceil value
+export function getCeil(input: string): string {
+	const num = parseFloat(input);
+	if (isNaN(num)) {
+		return '';
+	} else {
+		return Math.ceil(num).toString();
+	}
+}
+
+// function to get positive or negative numbers '+/-'
+
+// export function toggleLastOperandSign(input: string): string {
+// 	// const num = parseFloat(input);
+// 	// if (isNaN(num)) {
+// 	// 	return '';
+// 	// }
+// 	// Remove all white spaces from the input
+// 	input = input.replace(/\s/g, '');
+
+// 	// Find the index of the last operator outside of brackets
+// 	let lastIndex = -1;
+// 	let depth = 0; // Keep track of bracket depth
+// 	for (let i = input.length - 1; i >= 0; i--) {
+// 		const char = input[i];
+// 		if (char === ')') {
+// 			depth++;
+// 		} else if (char === '(') {
+// 			depth--;
+// 		} else if (depth === 0 && (char === '+' || char === '-')) {
+// 			lastIndex = i;
+// 			break;
+// 		}
+// 	}
+
+// 	// If no operator was found and input is not empty, toggle the sign of the entire input
+// 	if (lastIndex === -1) {
+// 		if (input.startsWith('-')) {
+// 			return input.substring(1);
+// 		} else if (input.startsWith('+')) {
+// 			return `-${input.substring(1)}`;
+// 		} else if (input === '') {
+// 			return '';
+// 		} else {
+// 			return `-${input}`;
+// 		}
+// 	}
+
+// 	// Split the input into the parts before and after the last operator
+// 	const leftOperand = input.substring(0, lastIndex + 1);
+// 	const rightOperand = input.substring(lastIndex + 1);
+
+// 	// Toggle the sign of the right operand
+// 	if (rightOperand.startsWith('-')) {
+// 		return `${leftOperand}${rightOperand.substring(1)}`;
+// 	} else if (rightOperand.startsWith('+')) {
+// 		return `${leftOperand}-${rightOperand.substring(1)}`;
+// 	} else {
+// 		// If the right operand contains brackets, toggle the sign of the last operand within the brackets
+// 		const rightOperandWithSign = toggleLastOperandSign(rightOperand);
+// 		const lastBracketIndex = rightOperandWithSign.lastIndexOf(')');
+// 		if (lastBracketIndex === -1) {
+// 			return `${leftOperand}-${rightOperandWithSign}`;
+// 		} else {
+// 			const firstBracketIndex = rightOperandWithSign.lastIndexOf(
+// 				'(',
+// 				lastBracketIndex
+// 			);
+// 			const operandAfterBracket = rightOperandWithSign.substring(
+// 				lastBracketIndex + 1
+// 			);
+// 			const operandBeforeBracket = rightOperandWithSign.substring(
+// 				firstBracketIndex + 1,
+// 				lastBracketIndex
+// 			);
+// 			return `${leftOperand}${rightOperandWithSign.substring(
+// 				0,
+// 				firstBracketIndex + 1
+// 			)}${toggleLastOperandSign(operandBeforeBracket)}${operandAfterBracket}`;
+// 		}
+// 	}
+// }
+export function toggleLastOperandSign(input: string): string {
+	let numRegex = /[-]?\d+/g;
+	let nums = input.match(numRegex);
+	if (nums === null) {
+		return '';
+	}
+	let newString = '';
+	for (let i = 0; i < nums.length; i++) {
+		let num = parseInt(nums[i] || '');
+		if (i === nums.length - 1 && num > 0) {
+			newString += `-${num}`;
+		} else if (i === nums.length - 1 && num < 0) {
+			newString += `${num * -1}`;
+		} else {
+			newString += `${num}`;
+		}
+		let opRegex = /[-+/*]/g;
+		let opMatch = opRegex.exec(input);
+		while (
+			opMatch !== null &&
+			opMatch.index < input.indexOf(nums[i + 1] || '')
+		) {
+			newString += `${opMatch[0]}`;
+			opMatch = opRegex.exec(input);
+		}
+	}
+	return newString;
+}
+
+// check which unit of angle is selected by user
+let unitOfAngle: string = 'DEG';
+const buttonOfUnit = document.getElementById('deg')!;
+buttonOfUnit.addEventListener('click', () => {
+	unitOfAngle = unitOfAngle === 'DEG' ? 'RAD' : 'DEG';
+	buttonOfUnit.innerHTML = unitOfAngle;
+});
+
+// common function to calculate all Trigonometry functions
+const result: HTMLInputElement = document.querySelector('#result')!;
+function calculateTrigValue(input: string, trigFunc: (x: number) => number) {
+	if (unitOfAngle === 'RAD') {
+		let radians = parseFloat(input);
+		result.value = trigFunc(radians).toString();
+	} else if (unitOfAngle === 'DEG') {
+		let degree = parseFloat(input) * (Math.PI / 180);
+		result.value = trigFunc(degree).toString();
+	}
+}
+
+// function for get sine value
+export function getSine(input: string) {
+	calculateTrigValue(input, Math.sin);
+}
+
+// function for get cos value
+export function getCos(input: string) {
+	calculateTrigValue(input, Math.cos);
+}
+
+// function for get tan value
+export function getTan(input: string) {
+	calculateTrigValue(input, Math.tan);
+}
+
+// function for get sec value
+export function getSec(input: string) {
+	calculateTrigValue(input, (radians) => 1 / Math.cos(radians));
+}
+
+// function for get cosec value
+export function getCsc(input: string) {
+	calculateTrigValue(input, (radians) => 1 / Math.sin(radians));
+}
+
+// function for get cot value
+export function getCot(input: string) {
+	calculateTrigValue(input, (radians) => 1 / Math.tan(radians));
+}
+
+// function to generate random numbers
+export function getRand(input: HTMLInputElement) {
+	input.value = Math.random().toString();
+}
+
+// function to get degree
+export function getDeg(input: string) {
+	if (unitOfAngle === 'RAD') {
+		let deg = Number(input) * (180 / Math.PI);
+		result.value = deg.toString();
+	} else {
+		result.value = (Number(result.value) / 0.0147).toString();
+	}
+}
+
+// function to get Degree to DMS
+export function getDegreesToDMS(input: string) {
+	if (unitOfAngle === 'DEG') {
+		let d = Math.floor(Number(input));
+		let m = Math.floor((Number(input) - d) * 60);
+		let s = ((Number(input) - d - m / 60) * 3600).toFixed(2);
+		if (s == '60') {
+			m++;
+			s = '0';
+		}
+		if (m == 60) {
+			d++;
+			m = 0;
+		}
+		result.value = `${d}° ${m}' ${s}"`;
+	} else {
+		alert('Please select DEG option first');
+		result.value = '';
+	}
+}
+
+// function to get fixed to exponent
+export function getFe(input: string) {
+	if (input == '' || input == '0') {
+		input = '0';
+	} else {
+		input = `${input}e+0`;
+	}
+	result.value = input;
+}
+
+// function to store memory
+export function memoryStore(input: HTMLInputElement) {
+	document.getElementById('memoryShow')!.innerHTML = input.value || '0';
+}
+
+// function to clear memory
+export function memoryClear() {
+	document.getElementById('memoryShow')!.innerHTML = '' || '0';
+}
+
+function getMemoryValue() {
+	return parseInt(document.getElementById('memoryShow')!.innerHTML);
+}
+
+// function for memory addition
+export function memoryAddition(input: HTMLInputElement) {
+	input.value = (getMemoryValue() + parseInt(input.value)).toString();
+}
+
+// function for memory subtraction
+export function memorySubtraction(input: HTMLInputElement) {
+	input.value = (getMemoryValue() - parseInt(input.value)).toString();
+}
+
+// function for memory recall
+export function memoryRecall(input: HTMLInputElement) {
+	input.value = document.getElementById('memoryShow')!.innerHTML;
 }

@@ -1,4 +1,26 @@
-import { calculate, calculateSqrt, calculateCubeSqrt } from './utils/utils';
+import {
+	calculate,
+	calculateSqrt,
+	calculateCubeSqrt,
+	getAbsolute,
+	getCeil,
+	getFloor,
+	getCos,
+	getCot,
+	getCsc,
+	getSec,
+	getSine,
+	getTan,
+	getDeg,
+	getRand,
+	getDegreesToDMS,
+	getFe,
+	memoryAddition,
+	memorySubtraction,
+	memoryStore,
+	memoryRecall,
+	memoryClear,
+} from './utils/utils';
 
 // toggle button
 const toggleButton: HTMLButtonElement =
@@ -174,7 +196,7 @@ tenPowx.addEventListener('click', function () {
 // add event listener to solve square root of x
 const rootXbtn: HTMLButtonElement = document.querySelector('#root_x')!;
 rootXbtn.addEventListener('click', () => {
-	const userInput = parseFloat(result.value);
+	const userInput = result.value;
 	const calculatedValue = calculateSqrt(userInput);
 	result.value = calculatedValue;
 });
@@ -183,7 +205,156 @@ rootXbtn.addEventListener('click', () => {
 const threeRootXbtn: HTMLButtonElement =
 	document.querySelector('#cube_root_x')!;
 threeRootXbtn.addEventListener('click', () => {
-	const userInput = parseFloat(result.value);
+	const userInput = result.value;
 	const calculatedValue = calculateCubeSqrt(userInput);
 	result.value = calculatedValue;
+});
+
+// add Eventlistener to solve absolute
+document.querySelector('#x_abs')?.addEventListener('click', () => {
+	const userInput = result.value;
+	const calculatedValue = getAbsolute(userInput);
+	result.value = calculatedValue;
+});
+
+// add Eventlistener to solve floor
+document.querySelector('#x_floor')?.addEventListener('click', () => {
+	const userInput = result.value;
+	const calculatedValue = getFloor(userInput);
+	result.value = calculatedValue;
+});
+
+// add Eventlistener to solve ceil
+document.querySelector('#x_ceil')?.addEventListener('click', () => {
+	const userInput = result.value;
+	const calculatedValue = getCeil(userInput);
+	result.value = calculatedValue;
+});
+
+// add Eventlistener to solve round
+const roundx: HTMLButtonElement = document.querySelector('#x_round')!;
+roundx.addEventListener('click', () => {
+	const userInput = result.value;
+	const calculatedValue = Math.round(parseFloat(userInput)).toString();
+	result.value = calculatedValue;
+});
+
+// add Eventlistener to solve '+/-'
+// const PlusbyMinus: HTMLButtonElement = document.querySelector(
+// 	'#addition_by_subtraction'
+// )!;
+// PlusbyMinus.addEventListener('click', () => {
+// 	const userInput = result.value;
+// 	const calculatedValue = getPlusbyMinus(userInput);
+// 	result.value = calculatedValue;
+// });
+
+import { toggleLastOperandSign } from './utils/utils';
+const PlusbyMinus: HTMLButtonElement = document.querySelector(
+	'#addition_by_subtraction'
+)!;
+PlusbyMinus.addEventListener('click', () => {
+	const userInput: string = result.value;
+	const calculatedValue: string = toggleLastOperandSign(userInput);
+	result.value = calculatedValue;
+});
+
+// add Eventlistener to solve sin
+const sinBtn = document.getElementById('sin')!;
+sinBtn.addEventListener('click', () => {
+	getSine(result.value);
+});
+
+// add Eventlistener to solve cos
+const cosBtn = document.getElementById('cos')!;
+cosBtn.addEventListener('click', () => {
+	getCos(result.value);
+});
+
+// add Eventlistener to solve tan
+const tanBtn = document.getElementById('tan')!;
+tanBtn.addEventListener('click', () => {
+	getTan(result.value);
+});
+
+// add Eventlistener to solve sec
+const secBtn = document.getElementById('sec')!;
+secBtn.addEventListener('click', () => {
+	getSec(result.value);
+});
+
+// add Eventlistener to solve cosec
+const cscBtn = document.getElementById('csc')!;
+cscBtn.addEventListener('click', () => {
+	getCsc(result.value);
+});
+
+// add Eventlistener to solve cot
+const cotBtn = document.getElementById('cot')!;
+cotBtn.addEventListener('click', () => {
+	getCot(result.value);
+});
+
+// add Eventlistener to generate random numbers
+const randBtn = document.getElementById('rand')!;
+randBtn.addEventListener('click', () => {
+	getRand(result);
+});
+
+// add Eventlistener to get degree
+const degBtn = document.getElementById('btnDeg')!;
+degBtn.addEventListener('click', () => {
+	getDeg(result.value);
+});
+
+// add Eventlistener for dms
+const dmsBtn = document.getElementById('dms')!;
+dmsBtn.addEventListener('click', () => {
+	getDegreesToDMS(result.value);
+});
+
+// add EventListener for f-e
+const fixedtoExponent = document.getElementById('fe')!;
+fixedtoExponent.addEventListener('click', () => {
+	getFe(result.value);
+});
+
+// Memory buttons Eventlistener
+// Memory store functionality
+let memoryStoreBtn = document.getElementById('memoryStore')!;
+memoryStoreBtn.addEventListener('click', () => {
+	if (result.value != '') {
+		(document.getElementById('memoryClear') as HTMLButtonElement).disabled =
+			false;
+		(document.getElementById('memoryRecall') as HTMLButtonElement).disabled =
+			false;
+	}
+	memoryStore(result);
+});
+
+// Memory clear functionality
+let memoryClearBtn: HTMLButtonElement = document.querySelector('#memoryClear')!;
+memoryClearBtn.addEventListener('click', () => {
+	(document.getElementById('memoryClear') as HTMLButtonElement).disabled = true;
+	(document.getElementById('memoryRecall') as HTMLButtonElement).disabled =
+		true;
+	memoryClear();
+});
+
+// Memory recall functionality
+let memoryRecallBtn = document.getElementById('memoryRecall')!;
+memoryRecallBtn.addEventListener('click', () => {
+	memoryRecall(result);
+});
+
+// Memory addition functionality
+let memoryAdditionBtn = document.getElementById('memoryPlus')!;
+memoryAdditionBtn.addEventListener('click', () => {
+	memoryAddition(result);
+});
+
+// Memory subtraction functionality
+let memorySubtractBtn = document.getElementById('memoryMinus')!;
+memorySubtractBtn.addEventListener('click', () => {
+	memorySubtraction(result);
 });

@@ -4,6 +4,15 @@
 	box-sizing: border-box;
 }
 
+.memory {
+	margin-left: 15px;
+	color: #a8a8a8;
+}
+
+#memoryShow {
+	margin-left: 3px;
+}
+
 .calculator_box {
 	height: 100vh;
 	width: 100vw;
