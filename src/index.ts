@@ -13,6 +13,7 @@ import {
 	getTan,
 	getDeg,
 	getRand,
+	getPlusbyMinus,
 	getDegreesToDMS,
 	getFe,
 	memoryAddition,
@@ -193,6 +194,30 @@ tenPowx.addEventListener('click', function () {
 	result.value = output;
 });
 
+// event listener to solve e power x
+const ePowx: HTMLButtonElement = document.querySelector('#e_power_x')!;
+ePowx.addEventListener('click', function () {
+	const userIp = (document.getElementById('result') as HTMLInputElement).value;
+	const output = `e**${userIp}`;
+	result.value = output;
+});
+
+// event listener to solve exp
+const ePow: HTMLButtonElement = document.querySelector('#exp')!;
+ePow.addEventListener('click', function () {
+	const userIp = (document.getElementById('result') as HTMLInputElement).value;
+	const output = `e**${userIp}`;
+	result.value = output;
+});
+
+// event listener to solve 1/x
+const oneByX: HTMLButtonElement = document.querySelector('#one_by_x')!;
+oneByX.addEventListener('click', function () {
+	const userIp = (document.getElementById('result') as HTMLInputElement).value;
+	const output = `1/${userIp}`;
+	result.value = output;
+});
+
 // add event listener to solve square root of x
 const rootXbtn: HTMLButtonElement = document.querySelector('#root_x')!;
 rootXbtn.addEventListener('click', () => {
@@ -208,6 +233,14 @@ threeRootXbtn.addEventListener('click', () => {
 	const userInput = result.value;
 	const calculatedValue = calculateCubeSqrt(userInput);
 	result.value = calculatedValue;
+});
+
+// add Eventlistener to solve '+/-'
+const PlusbyMinus: HTMLButtonElement = document.querySelector(
+	'#addition_by_subtraction'
+)!;
+PlusbyMinus.addEventListener('click', () => {
+	getPlusbyMinus(result);
 });
 
 // add Eventlistener to solve absolute
@@ -235,27 +268,7 @@ document.querySelector('#x_ceil')?.addEventListener('click', () => {
 const roundx: HTMLButtonElement = document.querySelector('#x_round')!;
 roundx.addEventListener('click', () => {
 	const userInput = result.value;
-	const calculatedValue = Math.round(parseFloat(userInput)).toString();
-	result.value = calculatedValue;
-});
-
-// add Eventlistener to solve '+/-'
-// const PlusbyMinus: HTMLButtonElement = document.querySelector(
-// 	'#addition_by_subtraction'
-// )!;
-// PlusbyMinus.addEventListener('click', () => {
-// 	const userInput = result.value;
-// 	const calculatedValue = getPlusbyMinus(userInput);
-// 	result.value = calculatedValue;
-// });
-
-import { toggleLastOperandSign } from './utils/utils';
-const PlusbyMinus: HTMLButtonElement = document.querySelector(
-	'#addition_by_subtraction'
-)!;
-PlusbyMinus.addEventListener('click', () => {
-	const userInput: string = result.value;
-	const calculatedValue: string = toggleLastOperandSign(userInput);
+	const calculatedValue = getAbsolute(userInput);
 	result.value = calculatedValue;
 });
 

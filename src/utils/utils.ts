@@ -13,18 +13,31 @@ export function calculate(input: string): void {
 			if (resultElem) {
 				resultElem.value = resultFact;
 			}
-		}
-		// check if the input includes the "π" or "e" and calculate them
-		else if (input.includes('π') || input.includes('e')) {
-			// check if the input string ends with 'π' or 'e'
-			if (input.endsWith('π') || input.endsWith('e')) {
-				// if it does, add a '*' character to the end to multiply with the next number
-				input = input.slice(0, -1) + '*' + input.slice(-1);
+		} else if (input.includes('π') || input.includes('e')) {
+			// Replace 'π' and 'e' with their corresponding numerical values
+			input = input.replaceAll(/(^|[-+*/])π/g, '$13.14159265359');
+			input = input.replaceAll(/(^|[-+*/])e/g, '$12.71828182846');
+			input = input.replaceAll(/π(?=\d)/g, '3.14159265359*');
+			input = input.replaceAll(/e(?=\d)/g, '2.71828182846*');
+			input = input.replaceAll(/(?<=\d|\.)π/g, '*3.14159265359');
+			input = input.replaceAll(/(?<=\d|\.)e/g, '*2.71828182846');
+			input = input.replaceAll(/π$/g, '*3.14159265359');
+			input = input.replaceAll(/e$/g, '*2.71828182846');
+			//---------------------------
+			// input = input.replaceAll(/(^|[-+*/()])π/g, '$13.14159265359');
+			// input = input.replaceAll(/(^|[-+*/()])e/g, '$12.71828182846');
+			// input = input.replaceAll(/π(?=\d|\.|\()|π$/g, '3.14159265359*');
+			// input = input.replaceAll(/e(?=\d|\.|\()|e$/g, '2.71828182846*');
+			// input = input.replaceAll(/(?<=\d|\.)π|(?<=\))π/g, '*3.14159265359');
+			// input = input.replaceAll(/(?<=\d|\.)e|(?<=\))e/g, '*2.71828182846');
+
+			// Evaluate the expression
+			try {
+				const resultEval: number = eval(input);
+				if (result) result.value = resultEval.toFixed(11).toString();
+			} catch (error) {
+				if (result) result.value = 'Invalid expression';
 			}
-			input = input.replaceAll(/π/g, '3.1415');
-			input = input.replaceAll(/e/g, '2.7182');
-			let resultPieEuler: number = eval(input);
-			if (result) result.value = resultPieEuler.toFixed(4).toString();
 		}
 		// check if input includes log
 		else if (input.includes('log')) {
@@ -54,9 +67,11 @@ export function calculate(input: string): void {
 				result.value = rootResult;
 			}
 		}
-		// evaluate the input using the eval function
+		// else evaluate the input using the eval function
 		else {
-			// if input doesn't include any special functions, evaluate expression using eval()
+			// Replace double negative signs with a single positive sign
+			//   input = input.replace(/--/g, "+");
+			// Evaluate expression using eval()
 			try {
 				const exprResult: number = eval(input);
 				result.value = exprResult.toString();
@@ -66,6 +81,8 @@ export function calculate(input: string): void {
 		}
 	}
 }
+
+const result: HTMLInputElement = document.querySelector('#result')!;
 
 // factorial function
 function factorial(num: number): number | string {
@@ -189,105 +206,14 @@ export function getCeil(input: string): string {
 	}
 }
 
-// function to get positive or negative numbers '+/-'
-
-// export function toggleLastOperandSign(input: string): string {
-// 	// const num = parseFloat(input);
-// 	// if (isNaN(num)) {
-// 	// 	return '';
-// 	// }
-// 	// Remove all white spaces from the input
-// 	input = input.replace(/\s/g, '');
-
-// 	// Find the index of the last operator outside of brackets
-// 	let lastIndex = -1;
-// 	let depth = 0; // Keep track of bracket depth
-// 	for (let i = input.length - 1; i >= 0; i--) {
-// 		const char = input[i];
-// 		if (char === ')') {
-// 			depth++;
-// 		} else if (char === '(') {
-// 			depth--;
-// 		} else if (depth === 0 && (char === '+' || char === '-')) {
-// 			lastIndex = i;
-// 			break;
-// 		}
-// 	}
-
-// 	// If no operator was found and input is not empty, toggle the sign of the entire input
-// 	if (lastIndex === -1) {
-// 		if (input.startsWith('-')) {
-// 			return input.substring(1);
-// 		} else if (input.startsWith('+')) {
-// 			return `-${input.substring(1)}`;
-// 		} else if (input === '') {
-// 			return '';
-// 		} else {
-// 			return `-${input}`;
-// 		}
-// 	}
-
-// 	// Split the input into the parts before and after the last operator
-// 	const leftOperand = input.substring(0, lastIndex + 1);
-// 	const rightOperand = input.substring(lastIndex + 1);
-
-// 	// Toggle the sign of the right operand
-// 	if (rightOperand.startsWith('-')) {
-// 		return `${leftOperand}${rightOperand.substring(1)}`;
-// 	} else if (rightOperand.startsWith('+')) {
-// 		return `${leftOperand}-${rightOperand.substring(1)}`;
-// 	} else {
-// 		// If the right operand contains brackets, toggle the sign of the last operand within the brackets
-// 		const rightOperandWithSign = toggleLastOperandSign(rightOperand);
-// 		const lastBracketIndex = rightOperandWithSign.lastIndexOf(')');
-// 		if (lastBracketIndex === -1) {
-// 			return `${leftOperand}-${rightOperandWithSign}`;
-// 		} else {
-// 			const firstBracketIndex = rightOperandWithSign.lastIndexOf(
-// 				'(',
-// 				lastBracketIndex
-// 			);
-// 			const operandAfterBracket = rightOperandWithSign.substring(
-// 				lastBracketIndex + 1
-// 			);
-// 			const operandBeforeBracket = rightOperandWithSign.substring(
-// 				firstBracketIndex + 1,
-// 				lastBracketIndex
-// 			);
-// 			return `${leftOperand}${rightOperandWithSign.substring(
-// 				0,
-// 				firstBracketIndex + 1
-// 			)}${toggleLastOperandSign(operandBeforeBracket)}${operandAfterBracket}`;
-// 		}
-// 	}
-// }
-export function toggleLastOperandSign(input: string): string {
-	let numRegex = /[-]?\d+/g;
-	let nums = input.match(numRegex);
-	if (nums === null) {
-		return '';
+// function to toggle operand sign
+export function getPlusbyMinus(input: HTMLInputElement) {
+	let userStr = input.value.toString();
+	if (userStr.charAt(0) === '-') {
+		input.value = input.value.substring(1, input.value.length);
+	} else {
+		input.value = '-' + input.value;
 	}
-	let newString = '';
-	for (let i = 0; i < nums.length; i++) {
-		let num = parseInt(nums[i] || '');
-		if (i === nums.length - 1 && num > 0) {
-			newString += `-${num}`;
-		} else if (i === nums.length - 1 && num < 0) {
-			newString += `${num * -1}`;
-		} else {
-			newString += `${num}`;
-		}
-		let opRegex = /[-+/*]/g;
-		let opMatch = opRegex.exec(input);
-		while (
-			opMatch !== null &&
-			opMatch.index < input.indexOf(nums[i + 1] || '')
-		) {
-			newString += `${opMatch[0]}`;
-			opMatch = opRegex.exec(input);
-		}
-	}
-	return newString;
 }
 
 // check which unit of angle is selected by user
@@ -299,7 +225,6 @@ buttonOfUnit.addEventListener('click', () => {
 });
 
 // common function to calculate all Trigonometry functions
-const result: HTMLInputElement = document.querySelector('#result')!;
 function calculateTrigValue(input: string, trigFunc: (x: number) => number) {
 	if (unitOfAngle === 'RAD') {
 		let radians = parseFloat(input);
@@ -312,32 +237,50 @@ function calculateTrigValue(input: string, trigFunc: (x: number) => number) {
 
 // function for get sine value
 export function getSine(input: string) {
-	calculateTrigValue(input, Math.sin);
+	if (!input) {
+		return 'Invalid input';
+	}
+	return calculateTrigValue(input, Math.sin);
 }
 
 // function for get cos value
 export function getCos(input: string) {
-	calculateTrigValue(input, Math.cos);
+	if (!input) {
+		return 'Invalid input';
+	}
+	return calculateTrigValue(input, Math.cos);
 }
 
 // function for get tan value
 export function getTan(input: string) {
-	calculateTrigValue(input, Math.tan);
+	if (!input) {
+		return 'Invalid input';
+	}
+	return calculateTrigValue(input, Math.tan);
 }
 
 // function for get sec value
 export function getSec(input: string) {
-	calculateTrigValue(input, (radians) => 1 / Math.cos(radians));
+	if (!input) {
+		return 'Invalid input';
+	}
+	return calculateTrigValue(input, (radians) => 1 / Math.cos(radians));
 }
 
 // function for get cosec value
 export function getCsc(input: string) {
-	calculateTrigValue(input, (radians) => 1 / Math.sin(radians));
+	if (!input) {
+		return 'Invalid input';
+	}
+	return calculateTrigValue(input, (radians) => 1 / Math.sin(radians));
 }
 
 // function for get cot value
 export function getCot(input: string) {
-	calculateTrigValue(input, (radians) => 1 / Math.tan(radians));
+	if (!input) {
+		return 'Invalid input';
+	}
+	return calculateTrigValue(input, (radians) => 1 / Math.tan(radians));
 }
 
 // function to generate random numbers
@@ -402,12 +345,14 @@ function getMemoryValue() {
 
 // function for memory addition
 export function memoryAddition(input: HTMLInputElement) {
-	input.value = (getMemoryValue() + parseInt(input.value)).toString();
+	let showResult = (getMemoryValue() + parseInt(input.value)).toString();
+	document.getElementById('memoryShow')!.innerHTML = showResult;
 }
 
 // function for memory subtraction
 export function memorySubtraction(input: HTMLInputElement) {
-	input.value = (getMemoryValue() - parseInt(input.value)).toString();
+	let showResult = (getMemoryValue() - parseInt(input.value)).toString();
+	document.getElementById('memoryShow')!.innerHTML = showResult;
 }
 
 // function for memory recall

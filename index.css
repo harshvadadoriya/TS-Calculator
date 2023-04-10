@@ -73,8 +73,8 @@ button[type='submit'] {
 }
 
 /* .sub_btn_container {
-	display: inline;
-} */
+	  display: inline;
+  } */
 
 .dropdown_btn button {
 	width: 145px;
@@ -115,54 +115,50 @@ button[type='submit']:focus {
 
 /* Function button dropdown */
 /* .dropbtn,
-.dropbtn1 {
-	font-size: 16px;
-	border: none;
-	cursor: pointer;
-}
-
-.dropdown,
-.dropdown1 {
-	position: relative;
-	display: inline-block;
-}
-
-.dropdown_content,
-.dropdown_content1 {
-	display: none;
-	position: absolute;
-	background-color: #f0f0f0;
-	min-width: 70px;
-	min-height: 215px;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	border-radius: 3px;
-	z-index: 1;
-	margin-top: -100px;
-}
-
-.dropdown_content button,
-.dropdown_content1 button {
-	color: black;
-	width: 60px;
-	height: 30px;
-	border: none;
-	outline: none;
-	display: block;
-	margin: auto;
-	margin-top: 5px;
-	border: 1px solid #e0e0e0;
-	border-radius: 5px;
-	background-color: white;
-}
-
-.dropdown_content button:hover,
-.dropdown_content1 button:hover {
-	background-color: #f5f5f5;
-} */
+  .dropbtn1 {
+	  font-size: 16px;
+	  border: none;
+	  cursor: pointer;
+  }
+  .dropdown,
+  .dropdown1 {
+	  position: relative;
+	  display: inline-block;
+  }
+  .dropdown_content,
+  .dropdown_content1 {
+	  display: none;
+	  position: absolute;
+	  background-color: #f0f0f0;
+	  min-width: 70px;
+	  min-height: 215px;
+	  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	  border-radius: 3px;
+	  z-index: 1;
+	  margin-top: -100px;
+  }
+  .dropdown_content button,
+  .dropdown_content1 button {
+	  color: black;
+	  width: 60px;
+	  height: 30px;
+	  border: none;
+	  outline: none;
+	  display: block;
+	  margin: auto;
+	  margin-top: 5px;
+	  border: 1px solid #e0e0e0;
+	  border-radius: 5px;
+	  background-color: white;
+  }
+  .dropdown_content button:hover,
+  .dropdown_content1 button:hover {
+	  background-color: #f5f5f5;
+  } */
 
 /* .dropbtn:focus .dropdown_content {
-	display: block;
-} */
+	  display: block;
+  } */
 
 .dropdown {
 	position: relative;
@@ -208,8 +204,8 @@ button[type='submit']:focus {
 }
 
 /* #myDropdownFunc {
-	margin-left: -15px;
-} */
+	  margin-left: -15px;
+  } */
 
 .dropdown-content .row {
 	display: flex;
@@ -228,8 +224,8 @@ button[type='submit']:focus {
 }
 
 /* .dropdown:hover .dropdown-content {
-	display: block;
-} */
+	  display: block;
+  } */
 
 /* CSS Media Query */
 @media only screen and (max-width: 400px) {
@@ -254,10 +250,10 @@ button[type='submit']:focus {
 	}
 
 	/* .dropdown_btn button {
-		width: 150px;
-	}
-	.dropdown_content button,
-	.dropdown_content1 button {
-		width: 60px;
-	} */
+		  width: 150px;
+	  }
+	  .dropdown_content button,
+	  .dropdown_content1 button {
+		  width: 60px;
+	  } */
 }
